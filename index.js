@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const cors = require('cors');
 const app = express();
@@ -22,6 +22,7 @@ app.use(express.json());
 const run = async ()=>{
     try{
         const fastElectro = client.db('fastElectro').collection('electroServices');
+        const userInfoDb = client.db('fastElectro').collection('userInfo');
        
         //get for home services
         app.get('/services', async(req, res)=>{
@@ -39,6 +40,22 @@ const run = async ()=>{
             res.send(allServices)
         })
 
+        // get one service by id
+        app.get('/serviceDetails/:id', async(req, res)=>{
+
+            const serviceId = req.params.id;
+            const query = {_id:ObjectId(serviceId)};
+
+            const singleService = await fastElectro.findOne(query);
+            res.send(singleService)
+        })
+        // post user information
+        app.post('/userInfo', async(req, res)=>{
+            const userData = req.body;
+            const result = await userInfoDb.insertOne(userData);
+            console.log(result)
+            // res.send('hello')
+        })
 
        
       
