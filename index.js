@@ -23,6 +23,7 @@ const run = async ()=>{
     try{
         const fastElectro = client.db('fastElectro').collection('electroServices');
         const userInfoDb = client.db('fastElectro').collection('userInfo');
+        const userReviews = client.db('fastElectro').collection('reviews');
        
         //get for home services
         app.get('/services', async(req, res)=>{
@@ -49,6 +50,26 @@ const run = async ()=>{
             const singleService = await fastElectro.findOne(query);
             res.send(singleService)
         })
+        // get all reviews 
+        app.get('/allReviews', async(req, res)=>{
+            const query = {};
+            const cursor = userReviews.find(query);
+            const allReviews = await cursor.toArray();
+            res.send(allReviews);
+            
+
+        })
+
+        // user specific reviews
+        app.get('/userSpecificReview',async (req, res)=>{
+            const emailQueries = req.query.email;
+            const query = {
+                email:emailQueries
+            }
+            const cursor = userReviews.find(query);
+            const result = await cursor.toArray();
+            res.send(result)
+        })
         // post user information
         app.post('/userInfo', async(req, res)=>{
             const userData = req.body;
@@ -57,6 +78,19 @@ const run = async ()=>{
             // res.send('hello')
         })
 
+        // post new service
+        app.post('/addService', async(req, res)=>{
+            const newService = req.body;
+            const result = await fastElectro.insertOne(newService);
+            res.send(result);
+           
+        })
+        // post reviews 
+        app.post('/addReview', async(req, res)=>{
+            const review = req.body;
+            const result = await userReviews.insertOne(review);
+            res.send(result);
+        })
        
       
     }
