@@ -61,14 +61,18 @@ const run = async ()=>{
         })
 
         // user specific reviews
-        app.get('/userSpecificReview',async (req, res)=>{
-            const emailQueries = req.query.email;
-            const query = {
-                email:emailQueries
+        app.get('/myReviews', async(req, res)=>{
+            let query = {};
+            if(req.query.email){
+                query={
+                    email:req.query.email
+                }
             }
+          
             const cursor = userReviews.find(query);
             const result = await cursor.toArray();
-            res.send(result)
+            res.send(result);
+           
         })
         // post user information
         app.post('/userInfo', async(req, res)=>{
