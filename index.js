@@ -95,6 +95,16 @@ const run = async ()=>{
             const result = await userReviews.insertOne(review);
             res.send(result);
         })
+
+        // delete specific review
+        app.delete('/myReview/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query={_id:ObjectId(id)}
+            const result = await userReviews.deleteOne(query);
+            res.send(result);
+              
+
+        })
        
       
     }
