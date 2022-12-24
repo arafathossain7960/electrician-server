@@ -1,6 +1,7 @@
 const express = require('express');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
+const jwt =require('jsonwebtoken');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -94,6 +95,12 @@ const run = async ()=>{
             const review = req.body;
             const result = await userReviews.insertOne(review);
             res.send(result);
+        })
+
+        // jwt token 
+        app.post('/jwt', (req, res)=>{
+            const user = req.body;
+            console.log(user)
         })
 
         // delete specific review
