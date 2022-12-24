@@ -98,10 +98,10 @@ const run = async ()=>{
         })
 
         // jwt token 
-        app.post('/jwt', (req, res)=>{
-            const user = req.body;
-            console.log(user)
-        })
+        // app.post('/jwt', (req, res)=>{
+        //     const user = req.body;
+        //     console.log(user)
+        // })
 
         // delete specific review
         app.delete('/myReview/:id', async(req, res)=>{
