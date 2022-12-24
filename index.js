@@ -53,7 +53,7 @@ const run = async ()=>{
         // get all reviews 
         app.get('/allReviews', async(req, res)=>{
             const query = {};
-            const cursor = userReviews.find(query);
+            const cursor = userReviews.find(query).sort({'time': -1});
             const allReviews = await cursor.toArray();
             res.send(allReviews);
             
